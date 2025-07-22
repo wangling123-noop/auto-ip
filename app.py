@@ -2,10 +2,11 @@ from flask import Flask, request, jsonify
 from spiders.taobao_spider import crawl_taobao_price
 from spiders.jd_spider import crawl_jd_price
 from spiders.dangdang_spider import crawl_dangdang_price
+import os
 
 app = Flask(__name__)
 
-@app.route('/get_price', methods=['POST'])
+@app.route('/api/price', methods=['POST'])
 def get_price():
     data = request.get_json()
     book_name = data.get('book_name')
@@ -22,4 +23,5 @@ def get_price():
     })
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
